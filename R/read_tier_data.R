@@ -47,6 +47,13 @@ read_tier_data <- function(raw_lines, col_types=NULL, col_names=NULL, na_strings
   skip <- str_which(raw_lines,'^@')
   headline <- raw_lines[skip]
 
+  # FLAG - adding by BVA for reading SOMLITN.OUT and SOMLITC.OUT files.
+  # Problem with "+" sign and regular expression.
+  headline <- map(headline,
+                  ~str_replace_all(string = .,
+                                   pattern = "\\+",
+                                   replacement = "D"))
+
   if(!is.null(read_only)){
     i <- which(read_only == 'DATE')
     if(length(i) == 1){
